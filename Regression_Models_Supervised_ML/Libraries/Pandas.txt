@@ -1,0 +1,146 @@
+python pandas
+
+//**TO USE PANDAS LIBRARY THE FIRST THING YOU NEED IS THAT TO IMPORT THE NUMPY LIBRARY.**//
+
+it is a powerfull library that is built on the top of the numpy library that is tit needs numpy to operate and it provides an easy way to create manipulate and wrangle the datasets it is also an elegant library for using time stamped data 
+
+Advantages:
+. it easily handles the missing data in datasets 
+. it uses the series and dataframes while numpy does not.
+. it provides an efficient way to merge, concatenate or reshape the data
+. it includes a powerfull time series tool to work with
+ 
+What is a dataframe?
+A data frame is a two dimensional array , with labeled axes (rows and coloumns). it is a standard way of storing data.
+
+
+pandas dataframes:
+>. indexes in the dataframes helps in the fast lookup of data.
+>. dataframes can be sliced like numpy array using a predefined function like .iloc()
+>. .head() and .tail() can be used to print first few ros specified in the parentheisis
+>. Extracting a single column from the data set becomes a series
+>. We use data.info() function forinspecting the data in pandas for finding the number of nan or inf values.
+>. We can use .values function to represent the df as the numpy array.
+
+We can also build the dataframes from the dictionaries :
+the key values of the dictionary will act as the coloumn labels values of the dataframes
+and the values ofthe key will be the rows of the dataset
+.. we can also build the dataframe from the lists by zipping them into the tuples and then converting them into the dictionaries by using the dict() function.
+
+Broadcasting is a powerfulltechnique by which we can modify the data sets.
+Using "Header=none" prevents python from assuming pandas that the first line is the label values. 
+   
+Arguements in pd.read_csv :
+Filepath , Header value , 
+na_values //for specifying the missing values with nan
+names // we can externally specify the labels of the dataset 
+parse_dates // used to specify the coloumn no.of the dataset to be combined to form dates.
+
+Writing back the files : 
+The method to_csv is used to provide an output to a file specified.
+We can even export the data into excelby using to_excel method.
+Similarly :
+.read_html , .read_json , .read_clipboard , .read_sql
+
+For a quick summary of statistical data :
+Use data.describe() method which will display all exact values of the only numerical data of the dataset
+
+Data['State'].nunique this method is used for checking the no. of unique values in the specified coloumn
+
+pd.isnull(data) // used to check the null values in the dataset .. returns the places with null value = true
+pd.notnull() // function is also there which is the full opposite of the isnull function
+
+Cleaning the data :
+it is the most important part of the data preprocessing as the cleaningof data that will affect your 
+for this purpose we will drop all the rows that contain null values.
+Syntax:
+data = data.dropna()
+now data will contain only non null value containing values
+
+//merging the two datasets independently:
+pd.merge(df1,df2)// for simple merge .. remeber that the index values willl be changed aftr merge
+pd.merge(df1,df2, on= coloumn name) // on is used to specify the coloumn on which basis the dataframes will be merged and the rest coloumns will remain as same
+
+// joining also does operate like merge operation in python:
+df.join(df1,df2) // joins the datasets and automatically specifies the nan values to the blank positions.
+
+if you want to drop  the coloums with null values:
+you can do this by data.dropna(axis=1)
+
+Few more data cleaning functions predefined in the pandas library :
+
+s.astype(float) # This will convert the datatype of the series to float *Please note that "s" here is a Pandas Series
+s.replace(1,'one') # This will replace all values equal to 1 with 'one'
+s.replace([1,3],['one','three']) #This will replace all 1 with 'one' and 3 with 'three'
+
+data.rename(columns=lambda x: x + 1) #Mass renaming of columns
+data.rename(columns={'oldname': 'new name'}) #Selective renaming
+
+data.reindex(coloumns = ['']) // it will remove all the rest coloumns from the dataset except index and the specified ones. 
+
+data.set_index('column_one' , inplace=true) # This will change the index writing inplace deletes the default indexing of the dataframe
+
+data.rename(index=lambda x: x + 1) #Mass renaming of indexf
+
+data.dropna(axis=1,thresh=n) #This will drop all rows have have less than n non null values
+
+data.fillna(x) # This will replaces all null values with x
+
+s.fillna(s.mean()) #This will replace all null values with the mean (mean can be replaced with almost any function from the below section) :
+
+data.corr() #This will return the correlation between columns in a DataFrame
+data.count() #This will return the number of non-null values in each DataFrame column
+data.max() #This will return the highest value in each column
+data.min() #This will return the lowest value in each column
+data.diff() #this gives us the diffrence betweens the coloums
+Syntax:
+sd = df.reindex(columns=['data','data'])
+db = sd.diff(axis = 1) // based on the rows
+
+data.median() #This will return the median of each column
+data.std() #This will returns the standard deviation of each column
+data.drop() # this will drop specific coloumns that you wol specify in the parenthesis
+
+We can add new coloumns in the dataset by this:
+data['M/W_Ratio'] = data['Men'] / data['Women']
+data.head()
+
+data.coloumns() will display all the coloumns in the dataset as a list.
+data.groupby() function can also be used to group the diversed dataset into a smaller one.
+pop = data['TotalPop'].sum() // is udes to store the total value of the variable population in the dataset into the pop variable.
+similarly the .max .min .mean function will work
+
+data.sort_values() it will sort the values into ascending order by default 
+data.sort_values([col1,col2],ascending=[True,False],type'quicksort,mergesort,or any other also') # This would sort values by col1 in ascending order then col2 in descending order
+
+Similartly you can do more advanced Groupby functions such as the following:
+data.groupby([col1,col2]) # This will return a groupby object values from multiple columns
+data.groupby(col1)[col2].mean() # This will return the mean of the values in col2, grouped by the values in col1 (mean can be replaced with almost any function discussed above (corr, count, max, sum, etc)
+If you want to create a Pivot Table:
+data.pivot_table(index=col1,values=[col2,col3],aggfunc=mean) # This will create a pivot table that groups by col1 and calculates the mean of col2 and col3
+Additional useful functions:
+data.groupby(col1).agg(np.mean) # This will find the average across all columns for every unique column 1 group
+data.apply(np.mean) # This will apply a function across each column
+data.apply(np.max, axis=1) # This will apply a function across each row
+
+data[attribute].iloc() it is used to  see the value at a specific position of data set
+
+---------------------------------------SERIES-------------------------------------------------------
+
+pandas series:
+series is the another data struccture ofthis library in python:
+Syntax :
+pd.series( a list or an array )
+
+after creating the data frame of random numbers we can modify it With date time index :
+by using the pd.date_range() function
+df.index = pd.date_range('2018/1/1',periods=df.shape[0]) // df.shape[0] gives us the row index count for the duratiton of period gaps of the dataset and the first initial date is specified.
+df.append( dataframeto be added after the df ) // used to modify the present dataset without disturbung the older values.
+dfnew2=pd.concat([dfnew, df3],axis=1) // used to add concat new coloumns with thier values in an older dataframe.
+
+----------------------------------------------------------------------------------------------------
+
+In Pandas library there is a predefined function called pd.get_dummies which eleminates the extra values of the row or coloums and convert the raw string type data into the binary values which help in elvaluating the data in multiple linear regression. 
+
+Syntax:
+pd.get_dummies(DataSet[States],drop_first=True) // drop_first it is used to drop out the first coloumn of the binary dataset.  

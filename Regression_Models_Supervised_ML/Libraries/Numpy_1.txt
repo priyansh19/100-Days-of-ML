@@ -1,0 +1,129 @@
+NUMPY
+
+it is the most basic and a powerfull package for working with data in python and it is used for data wrangling and data manipulations 
+
+the basic diffrences in lists of python and numpy arrays are :
+	1>. numpy arrays support vectorised operations while lists do not
+	2>. another significant diffrence is that the size of numpy arrays cant be changed while size of lists can be.
+	3>. the numpy arrays must have all items to be of same data type ,unlike lists.this is another significant diffrence.
+	4>  numpy also support boolean array format while list does not
+	5>. An equivalent array in numpy occupies much less space as conmpared to lists in python  
+	6>. We can access the specific elements of an array using numpy while in lists this is not possible
+  
+Creating a array with a float:
+arr2d_f =np.array(list2, dtype='float')
+
+printing array with diffrent data type:
+array.astype('int')
+		
+converting a numpy array back to lists:
+array.tolist()
+
+Inspecting and reshaping of arrays :
+	" ndim , shape , dtype , size " are all functions
+
+Reversing the positionof the rows and coloumns:
+	array[::-1, ::-1] 
+
+Replacing a nan value and infinite values:
+	np.isnan(" Array ") // to replace nan values.
+	\\to replace their values we can iterate from the array and then applying the for loop for the places which are true will change to a given number.
+	np.isinf(" Array ") //to relpace infinity vallues
+Syntax:
+	from numpy import *
+	a = array([[1, 2, 3], [0, 3, NaN]])
+	where_are_NaNs = isnan(a)
+	a[where_are_NaNs] = 0
+
+Computing Mean Max Min:
+	arr.min(),//similarly mean and min can be calcualated.
+	**to calculate the mean max and min row wise and coloumn wise:
+		np.amin(array, axis =0),np.amean().. and so on 
+		//0 for row ad 1 for coloumn.
+
+Finding a cummululative sum :
+	np.cumsum("array")
+
+If you make a new array assigning a small part to the new one then any change to the new array will reflect back to the older one too but if You will make a shallow copy then it will not reflect back.
+Making a copy():
+arr2=arr2a[::2,::2].copy()
+
+Reshaping AND Flattening of arrays :
+Using arr2.reshape(x,y) And by using flatten and ravel methods
+
+Flattening :
+the basic diffrence between both of them is that the ravel methhod creates a refrence between new and the older array so any changes made will affect the parrent array as well but this doesnot happens in the case of the flatten method.Hence the ravel method is memory efficient and it does not creates a copy.
+
+Creating sequence repetitions and random numbers:
+in creating a customised number sequence as nd array np.arange function comes into handy 
+
+syntax:
+np.arange("start integer of an array","Ending integer"-1,"Optional - diffrence between each entry")
+
+If you are more focused about the step value then you can use linspace and logspace function:
+
+syntax:
+np.linspace(start=1,stop=50,num=10,dtype=int)
+it will automaticaly count the step value between each entryofthe array
+
+logspace: it rises in a logarithmic scale. in this start and stop values are base^start and base^stop values and a default based value as 10
+
+Creating a matrices of zeroes and ones for identity and indempotent matrices:
+np.zeroes([2,2]) // creates a matrix of 2x2 with all entries as 0
+np.ones([2,2]) // creates a matrix of ones 2x2 with all as 1
+
+Creating a repeating sequence :
+
+np.tile("Array","No. of times of repetition of each digit in array") function creates a tile like structure of an array in which ech tile gets reated after it ends.
+
+np.repeat("Array","no. of times of repetition") this function is used for repeating each value one after another the o. of times it is specified to be
+
+tile :- [1 2 3 1 2 3]
+Repeat :- [1 1 2 2 3 3]
+
+Creating the random numbers:
+the random modules provides nice functionsto generate random numbers[and also statistical distribution] of any given shape
+
+creates a random  matrix of 2x2 with random entries between 0,1
+print(np.random.rand(2,2))
+can also be done with np.random.random() function
+
+to create a matrixof mean=0 variance=1 of shape as specified:
+print(np.random.randn(2,2))
+
+print(np.random.randint(0,10,size=[2,2])) // creates a matrix of size 2,2 with random integers between 0,10
+
+print(np.random.choice(['a', 'e', 'i', 'o', 'u'], size=10)) //prints the random choices inthe specified list till the length count reaches to 10 **with equal probability**.
+
+print(np.random.choice(['a', 'e', 'i', 'o', 'u'], size=10, p=[0.3, .1, 0.1, 0.4, 0.1])) // same as abovebut the nly diffrence between them is they are defined with the probabilities of them to be displayed.
+
+Inthe above code the random numbers generated will be diffrent each and every time but if you want to save the current state of the generated integers then:
+you have to create a random state object:
+
+rn = np.random.RandomState(100)
+print(rn.rand(2,2))
+np.random.seed(100)// saving or seeding the current state of the generated matrix
+
+now if wegenerate the matrix with same size again then it will be the same as generated above.
+
+Generating the unique items and their counts:
+np.unique method is used to generate random unique items
+
+NOTE: np.random.seed this method is used as a generator to initialise the value of RandomState.
+
+syntax:
+
+np.random.seed(100)
+arr_rand = np.random.randint(0, 10, size=10)
+print(arr_rand)
+ [8 8 3 7 7 0 4 2 5 2]
+# Get the unique items and their counts
+uniqs, counts = np.unique(arr_rand, return_counts=True)
+print("Unique items : ", uniqs)
+print("Counts       : ", counts)
+
+#> Unique items :  [0 2 3 4 5 7 8]//elements 
+#> Counts       :  [1 2 1 1 1 2 2]//thier respective counts.
+
+
+

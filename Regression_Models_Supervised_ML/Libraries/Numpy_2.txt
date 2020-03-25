@@ -1,0 +1,228 @@
+NUMPY 2.0
+
+finding the inverse of the matrices:
+
+making an array a mtarix uisng np.matrix() and then multiplying it with Identity matrix
+and the another method of doing so is np.linalg.inv(Array) it will directky give you the inverse of the matrix.
+
+In numpy arrays you can also use the where function to apply a specififc condition on the array to list out specific index value
+Syntax :
+idx_val = np.where("condition on an array")
+
+We can use take function after using where to pick up the values at those index values
+syntax:
+np.take("List of index values")
+
+Np.where funtion takes two more optional arguments in it let's say x,y then if the condition passed is true then x is yielded else y is yielded.
+Syntax:
+np.where(arr_rand > 5, 'gt5', 'le5')
+#> array(['gt5', 'gt5', 'le5', 'gt5', 'gt5', 'le5', 'le5', 'le5', 'le5', 'le5'],
+      dtype='<U3')
+
+Now finding the lowest and the higest values in the arrays as well:
+Syntax:
+np.argmax("ARRAY") // for finding the index value of max value in the array
+np.argmin("ARRAY") // for finding the index value of min value in the array
+--> and as of now we have the index values of the min and the maxvalues we can easily find these values in the array by using np.take() method().
+
+How to import and export data as csv file in python:
+The most famous way of doing so is using np.genfromtxt function.
+it can perform various basic features like :
+	importing datasets from urls 
+	handle missing values
+	multiple delimiters 
+	handle irregular number of coloums
+Values to be passed inside the delimiters:
+	Path : File path either online or on a local machine.
+	delimiters : seperators used to seperate each entry.
+	filling values: the values to be replaced instead of nan.
+It has its less versatile version np.loadtxt which assumes the data does not have any missing values.
+
+Syntax:
+np.set_printoptions(suppress=True) // turn off the scientific notation
+path = 'https://raw.githubusercontent.com/selva86/datasets/master/Auto.csv'
+data = np.genfromtxt(path, delimiter=',', skip_header=1, filling_values=-999, dtype='float')
+data[:3]  # see first 3 rows
+
+if you have array the contiains diffrent type of data type then you have to specify dtype as object or none to display diffrent datatypes as it is.
+
+np.savetxt("file name", data, delimiter=',')
+
+How to save and load numpy objects :
+At some point of time you may need to save the large transformed arrray to diskand load it back to console directly without having the re run data transformation code.
+file types provided by numpy for this is : (.npy , .npz)
+
+//.npy is used to save only a single array in a single file and .npz stores more than one array in a single file
+while using the npy we have to use np.save() and while using npz we have to use np.savez()
+-- and ata the time of loading the arrays back into the console we use np.load()
+ 
+Concatenation of two or more arrays vertically and horizontally or coloumn wise and row wise:
+there are three ways to do so :
+	1>. using np.concatenate function // .. by changing the axis parameter to 0 and 1
+	Axis 0 	|
+       		|
+       		~
+	Axis 1 ---->
+        
+	2>. no.vstack and np.hstack
+	3>. np.r_ and np.c_
+
+Syntax :
+np.concatenate([a, b], axis=0) 	// 
+np.vstack([a,b])  		// These all are used to stack the matrices vertically 
+np.r_[a,b]			//
+ 
+np.concatenate([a, b], axis=1) 	//
+np.hstack([a,b])  		// These all methods are used to stack matrices horizontally.
+np.c_[a,b]			//
+
+Sorting an array :
+using np.sort function-- 
+np.sort("ARRAY",axis=0,1)
+
+We have a special sorting function :
+numpy.argsort(array , axis= 1, kind='quicksort', order=None)
+// Returns the indices that would sort an array.
+
+Perform an indirect sort along the given axis using the algorithm specified by the kind keyword. It returns an array of indices of the same shape as a that index data along the given axis in sorted order.
+
+Sorting an array on the basis of 2 or more coloumns:
+using np.lexsort() function passing a tuple on the basis of which the array should be sorted but you have to remember one thing that the coloumn to be sorted first must be placed at the rightmost side of the tuple.
+
+sort by column 0 and column 1
+lexsorted_index = np.lexsort((arr[:,1],arr[:,0])) //array of the column 0 will be sorted first as compared to column 1.  
+
+Working with dates:
+date64 = np.datetime64('2018-02-04 23:10:10')
+//to print only the date use date64 arg..
+
+date64 = np.datetime64(date64,'D')
+
+by default if you want to add a specific amount of the time and date in the time being displayed then youhave to create time deltas and date can de added directly into it :
+
+Examples:
+print('Add 10 days: ', dt64 + 10)
+print('Add 10 minutes: ', dt64 + np.timedelta64(10, 'm'))
+print('Add 10 seconds: ', dt64 + np.timedelta64(10,'s'))
+print('Add 10 nanoseconds: ', dt64 + np.timedelta64(10,'ns'))
+
+Will display:
+#> Add 10 days:  2018-02-14
+#> Add 10 minutes:  2018-02-04T00:10
+#> Add 10 seconds:  2018-02-04T00:00:10
+#> Add 10 nanoseconds:  2018-02-04T00:00:00.000000010
+
+To convert date and time back to string then use np.datetime_as_string('object created to display date and time')
+Tocheck wheather the displaying day is a buisness day or not ? you can np.is_busday() to get the boolean value
+Synatx :
+np.is_busday(Object of date) // false or true value 
+
+print("Add 2 business days, rolling forward to nearest biz day: ", np.busday_offset(dt64, 2, roll='forward'))  
+print("Add 2 business days, rolling backward to nearest biz day: ", np.busday_offset(dt64, 2, roll='backward')) 
+// using a new function np.busday_offset to traverse to the next 2 buisness day.
+
+To create a sequence of dates use range fuction 
+Example:
+dates = np.arange(np.datetime64('2018-02-01'), np.datetime64('2018-02-10'))
+
+Converting the datetime64 to datetime.datetime object:
+using to list() funvtion.
+
+d = object_created.tolist()
+it will display the results in the format of :
+datetime.date(2018, 2, 4)
+
+Once the date is converted into this special format you have now a lot mmore faciities like ;
+dt.year() // finding the year
+dt.day()  // finding the day
+dt.month()// finding the month
+dt.weekday() //day of weak starting from monday=0
+
+vectorising the operations :
+with the help of vectorise() you can make a function that actualy works on a individual number anfd to work on arrays
+
+Basically when you apply a function an a scalor [i.e: foo(10) //foo is a function.] then it gives the result but in case of an array it gives an error, As it is not meant to work on array.Here the vectorise() operation comes into the scope which will magically make it work.
+
+Syntax:
+
+def foo(x):
+    if x % 2 == 1:
+        return x**2
+    else:
+        return x/2
+foo_vectorised = np.vectorise(foo, otype=[float])
+
+print('x = [10,11,12] returns :', foo_vectorised([10,11,12]))
+print('x = [[10,11,12],[1,2,3]] returns :', foo_vectorised([[10,11,12],[1,2,3]]))
+
+Lets apply a function coloumn wise or row wise:
+
+At some point of time when we need to apply a function in a row or a specific coloumn then this is used..
+
+You can do this elegantly using the numpy.apply_along_axis.
+
+It takes as arguments:
+Function that works on a 1D vector (fund1d)
+Axis along which to apply func1d. For a 2D array, 1 is row wise and 0 is column wise.
+Array on which func1d should be applied.
+
+# Define func1d
+def max_minus_min(x):
+    return np.max(x) - np.min(x)
+# Apply along the rows
+print('Row wise: ', np.apply_along_axis(max_minus_min, 1, arr=arr_x))
+# Apply along the columns
+print('Column wise: ', np.apply_along_axis(max_minus_min, 0, arr=arr_x))
+
+numpy.searchsorted() what does it do ?
+
+it gives the index position at which a number should be inserted in order to keep the array sorted.
+
+x = np.arange(10)
+print('Where should 5 be inserted?: ', np.searchsorted(x, 5))
+print('Where should 5 be inserted (right)?: ', np.searchsorted(x, 5, side='right'))
+#> Where should 5 be inserted?:  5
+#> Where should 5 be inserted (right)?:  6
+
+at the time of using np.choice for the purpose of sampling then this method is prefered over that because it takes 17x less time then np.choice 
+
+Adding an axis to the current data set or ana numpy array :
+You can do this by np.newaxis() function .. by doing so you can raise the arrayof lower dimension to higher one
+Syntax:
+x = np.arange(5)
+print('Original array: ', x)
+# Introduce a new column axis
+x_col = x[:, np.newaxis]
+print('x_col shape: ', x_col.shape)
+print(x_col)
+# Introduce a new row axis
+x_row = x[np.newaxis, :]
+print('x_row shape: ', x_row.shape)
+print(x_row)
+
+Use np.digitize to return the index position of the bin each element belongs to.
+# Create the array and bins
+x = np.arange(10)
+bins = np.array([0, 3, 6, 9])
+# Get bin allotments
+np.digitize(x, bins)
+#> array([1, 1, 1, 2, 2, 2, 3, 3, 3, 4])
+ 
+np.clip to cap the numbers within a given cutoff range. All number lesser than the lower limit will be replaced by the lower limit. Same applies to the upper limit also.
+
+# Cap all elements of x to lie between 3 and 8
+np.clip(x, 3, 8)
+#> array([3, 3, 3, 3, 4, 5, 6, 7, 8, 8])
+
+Histogram and Bincount
+Both histogram() and bincount() gives the frequency of occurences. But with certain differences.
+While histogram() gives the frequency counts of the bins, bincount() gives the frequency count of all the elements in the range of the array between the min and max values. Including the values that did not occur.
+
+What all we miss in numpy :
+
+these thing cant be done with numpy ..
+	No direct function to merge two 2D arrays based on a common column.
+	Create pivot tables directly
+	No direct way of doing 2D cross tabulations.
+	No direct method to compute statistics (like mean) grouped by unique values in an array.
+	And more..
